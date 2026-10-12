@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <title>Research | Silvia Buscaglione</title>
+  <style>
+
+    /* ── GLOBAL VARIABLES ── */
+    :root {
+      --bg: #f8f6f1;
+	  --fig-bg: #F6F1F8;
+      --sidebar-bg: #1c2b3a;
+      --accent: #c8603a;
+      --accent-light: #e8a088;
+      --accent-light2: #8fa4b8;
+      --text: #1a1a1a;
+      --muted: #5a6272;
+      --border: #e0dbd0;
+      --nav-h: 58px;
+      --color-bartxt: #c8d4e0;
+	  
+	  
+	  /* Font Style*/
+	  --font-main: Calibri, 'Gill Sans', sans-serif;	/* font style for the main text*/
+      --font-title: Calibri, 'Gill Sans', sans-serif;	/* font style for the title text*/
+	  
+	  
+      --font-size-main: 19px;
+      --line-height-main: 1.5;
+      --col-date: 200px;   /* width of the dark date column */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-main);
+      font-size: var(--font-size-main);
+      line-height: var(--line-height-main);
+      background: var(--bg);
+      color: var(--text);
+    }
+	
+	
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--sidebar-bg);
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 0 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    nav a {
+      color: var(--color-bartxt);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: capitalize;
+      padding-bottom: 3px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-light);
+      border-bottom-color: var(--accent-light);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    /* full width container, all rows share the same grid */
+    .page {
+      width: 100%;
+      min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* ── ROW GRID ── */
+    /* every row (header, year divider, news item) uses the same 2-column grid */
+    /* left column = dark date area, right column = content area */
+    .row {
+      display: grid;
+      grid-template-columns: var(--col-date) 1fr;  /* dark col + content col */
+    }
+
+    /* ── LEFT CELL (dark column) ── */
+    /* always dark navy — creates the continuous dark sidebar effect */
+    .cell-date {
+	  background: var(--sidebar-bg);        /* dark navy background — same as nav bar */
+	  
+	  padding: 1.4rem 1.2rem 1.4rem 1rem;  /* spacing inside the cell:
+											   top=1.4rem, right=1.2rem, 
+											   bottom=1.4rem, left=1rem */
+	  
+	  display: flex;                        /* needed to align the date text inside */
+	  
+	  align-items: flex-start;             /* pins the date text to the TOP of the cell
+											   so it aligns with the news title on the right,
+											   even if the news item is very tall */
+	  
+	  justify-content: flex-end;           /* pushes the date text to the RIGHT edge
+											   of the dark column */
+	  
+	  border-bottom: 1px solid rgba(255,255,255,0.08); /* very faint white line between 
+											   date cells — rgba(255,255,255,0.06) means 
+											   white at only 6% opacity, almost invisible,
+											   just enough to add subtle separation */
+	}                  
+
+	/* ── PROJECT LAYOUT: image left, text right ── */
+	.project-body {
+	  display: flex;              /* puts image and text side by side */
+	  gap: 1.5rem;                /* space between image and text */
+	  margin-top: 0.6rem;         /* space below the title */
+	  margin-bottom: 0.6rem;      /* space above the paper link */
+	}
+
+	.project-img {
+	  width: 220px;               /* fixed image width */
+	  min-width: 220px;           /* prevents shrinking */
+	  height: 160px;              /* fixed image height */
+	  object-fit: cover;          /* fills the box without stretching */
+	  border-radius: 6px;         /* slightly rounded corners */
+	  border: 1px solid var(--border); /* subtle border */
+	  background: #ddd;           /* placeholder color when no image */
+	}
+	
+	/*figure layout: if project-img.figure: adapt the figure to the box without cutting the figure and having a white background*/
+	.project-img.figure { object-fit: contain; background: #f7f6f4; }
+
+	.project-text {
+	  flex: 1;                    /* takes remaining space */
+	  font-size: 0.95rem;
+	  color: var(--muted);
+	  line-height: 1.65;
+	}
+
+    /* ── DATE TEXT ── */
+    .cell-date span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);                        /* orange date */
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* ── YEAR LABEL IN DARK COLUMN ── */
+	.cell-date.year {
+	  padding: 0.6rem 1.2rem;
+	  border-top: 1px solid var(--border);     /* ← add this */
+	  border-bottom: 1px solid var(--border);  /* ← change from none to this */
+	  align-items: center;
+	}
+
+    .cell-date.year span {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light2);                 /* grey-blue for year label */
+    }
+
+    /* ── HEADER ROW ── */
+    /* the "News" title row at the top */
+    .cell-header {
+      background: var(--bg);
+      padding: 3rem 4rem 0;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── YEAR DIVIDER ROW ── */
+    /* the "── 2026 ──" divider in the content column */
+    .cell-year {
+      background: var(--bg);
+      padding: 0.2rem 2rem;
+	  border-top: 0px solid var(--border);     /* ← add this */
+	  border-bottom: 1.3px solid var(--border);  /* ← add this */
+      display: flex;
+      align-items: center;
+    }
+
+    
+
+    /* ── NEWS CONTENT CELL ── */
+    /* right side of each news row */
+    .cell-content {
+      background: var(--bg);
+      padding: 1.4rem 4rem;
+      border-bottom: 1px solid var(--border);      /* divider between news items */
+    }
+
+    /* removes border from last news item in each year group */
+    .row.last .cell-content {
+      border-bottom: none;
+    }
+
+    /* ── NEWS TITLE ── */
+    .cell-content h3 {
+	  font-size: 1.0rem;    
+      font-weight: 600;     
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.4;  
+    }
+
+    /* ── NEWS DESCRIPTION ── */
+    .cell-content p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── NEWS LINKS ── */
+    .cell-content a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: color 0.2s;
+    }
+
+    .cell-content a:hover { color: var(--accent-light); }
+	
+	.project-text p + p { margin-top: 0.6rem; }		/* to manage space between paragraphs*/
+
+    /* ── FADE UP ANIMATION ── */
+    .row {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    /* on small screens, collapse to single column */
+    @media (max-width: 900px) {
+      .row { grid-template-columns: 100px 1fr; } /* narrower date column */
+      .cell-header, .cell-year, .cell-content { padding-left: 1.5rem; padding-right: 1.5rem; 
+	  
+	  .project-body { flex-direction: column; }											/*flex-direction: column stacks the image above the text instead of beside it.*/
+	  .project-img { width: 100%; min-width: 0; max-width: 290px; height: auto; aspect-ratio: 11 / 8; }	/*lets the image fill the available width instead of insisting on 220px. while keeping the same proportion as the desktop box*/
+	  
+	  }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="research.html" class="active">Research</a>
+    <a href="publications.html">Publications & CV</a>
+    <a href="news.html">News</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER ROW -->
+	<div class="row">
+	  <div class="cell-date"></div>
+	  <div class="cell-header">
+		<div class="page-title">Research</div>
+		<div class="page-subtitle">Information on my research and university projects.</div>
+	  </div>
+	</div>
+
+    <!-- ── 2026 ── -->
+
+    <!-- year label row -->
+    
+	<div class="row">
+		<div class="cell-date year"><span>Postdoc</span></div>
+		<div class="cell-year"></div>
+	</div>
+
+    <div class="row">
+      <div class="cell-date"><span>Northeastern University</span></div>  <!-- date perfectly aligned with content -->
+      <div class="cell-content">
+        <h3>Is holding hand beenficial for postural balance?</h3>
+			<div class="project-body">
+			<img class="project-img figure" src="images/HHBalance.svg" alt="Postural balance study"/>
+				<div class="project-text">
+				  <p>In this research I evaluated the effect of holding hands on postural balance in trained (ballet dancers) and untrained (college students) individuals.
+				  Whole-body kinematic data were analyzed to compute the center of mass (CoM), and force platform data were used to compute the center of pressure (CoP).
+				  Postural balance metrics (CoM sway and velocity) were computed to assess balance performance. Information content of the interaction force and its 
+				  relation with participants movement has been analyzed to assess different startegies in using haptic information between trained and untrained individuals.			  
+				  
+				  <!-- Results showed that untrained individuals performed worse than trained ones, but when holding hands their performance improved to the level of the trained individuals.
+				  Trained individuals were not affected by the coupling. Analysis of the interaction force revealed that untrained individuals exploited haptic information more than
+				  trained individuals, suggesting that they sought more help from the coupling, while trained individuals relied more on their own control.--> </p>
+
+				  <p>Following these results, a biomechanical computational model consisting of a double inverted pendulum with an LQR controller was developed to examine postural
+				  control strategies in trained and untrained individuals. Results are still under investigation.</p>
+				</div>
+			</div>
+		<!-- <p> Paper link: <a href="#"> link </a></p>-->
+		<p> Status: in preparation </p>		
+      </div>
+    </div>
+	
+	<div class="row">
+      <div class="cell-date"><span>Northeastern University</span></div>  <!-- date perfectly aligned with content -->
+      <div class="cell-content">
+        <h3>Does using hand-held canes enhance postural balance learning?</h3>
+			<div class="project-body">
+			<img class="project-img figure" src="images/Canes.svg" alt="Postural balance study"/>
+				<div class="project-text">
+				  <p>In this research I evaluated the effect of hand-held canes on postural balance by analyzing the center of mass and center of pressure while participants
+				  stood on a beam with and without canes. While canes enhances postural balance during the task, no adaptation or balance improvement was observed 
+				  in the trials immediately after the cane trials. </p>
+				</div>
+			</div>
+		<!-- <p> Paper link: <a href="#"> link </a></p>-->
+		<p> Status: in preparation </p>		
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="cell-date"><span>Northeastern University</span></div>
+      <div class="cell-content">
+        <h3>Importance of force modulation in complex object interaction in post-stroke and healthy individuals</h3>
+        <div class="project-body">
+		<img class="project-img figure" src="images/CupBall.svg" alt="Cup-Ball project"/>
+			<p class="project-text">In this study we evaluated the difference in force modulation between healthy and post-stroke individuals when manipulating an object with 
+				an internal degree of freedoom not directly controlled by the user. Results showed that post-stroke individuals showed disrupted force modulation that was 
+				not correlated with kinematic metric, unlike neurotypical individuals, who showed a correlation between kinematics and kinetics.</p>
+		</div>
+		<p> Conference Paper link: 
+		<p>Paper: <a href="#" target="_blank">IEEE EMBC (2026)</a>			</p>
+		<p> Journal Paper: in preparation </p>
+	  </div>
+    </div>
+
+	<!-- year label row -->
+    <div class="row">
+		<div class="cell-date year"><span>PhD</span></div>
+		<div class="cell-year"></div>
+	</div>
+    
+    <div class="row">
+      <div class="cell-date"><span>Newcastle University</span></div>
+      <div class="cell-content">
+        <h3>Can haptic coupling improve children's handwriting?</h3>
+		<div class="project-body">
+		  <img class="project-img figure" src="images/Handwriting.svg" alt="Child and caregiver writing together through a haptic interface"/>
+		  <div class="project-text">
+			<p>Learning to write fluently is a demanding motor task for children, and many struggle with it throughout primary school.
+				In this study we investigated whether bidirectional haptic feedback can support handwriting practice. Twelve child–caregiver
+				dyads copied single letters and letter pairs in cursive, either physically coupled through a custom haptic interface or alone.
+				A GUI developed in Unity ran on an interactive display, where participants saw the target letters and wrote with a 3D-printed stylus.
+				When coupled, the less skilled partner in each dyad improved, especially in handwriting fluency, and this improvement persisted
+				when they wrote alone immediately afterwards.</p>
+		  </div>
+		</div>
+		<p>Paper: <a href="https://ieeexplore.ieee.org/document/11456116" target="_blank">IEEE Transactions on Haptics (2026)</a></p>
+    </div>
+	</div>    
+	
+	
+	<div class="row">
+      <div class="cell-date"><span>Universita' Campus Bio-Medico di Roma</span></div>
+      <div class="cell-content">
+		<h3>Can a robot-mediated connection help the less skilled partner without burdening the more skilled one?</h3>
+		<div class="project-body">
+		  <img class="project-img figure" src="images/conbots.png" alt="Conbots"/>
+		  <div class="project-text">
+			<p>When two people are physically connected, for example when moving a table together or supporting a child learning to ride a bike,
+			they exchange haptic information that improves their motor performance. However, this benefit usually comes at the cost of extra
+			effort for the more skilled partner. In this study we investigated whether an asymmetric connection, mediated by robots, could
+			avoid this trade-off. Pairs of participants performed a 3D tracking task of position and orientation while connected through
+			two robotic manipulators, with different coupling condition. Results indicated that with an asymmetrical coupling (less stiff for the more skilled
+			partner) there was the highest trade-off between joint performance and effort: the less skilled partner improved, while the more skilled partner's performance 
+			and effort were unchanged.</p>
+		  </div>
+		</div>
+		<p>Paper: <a href="https://ieeexplore.ieee.org/abstract/document/10916729" target="_blank">IEEE Transactions on Biomedical Engineering (2025)</a></p>    </div>	
+  </div>
+  
+  <div class="row">
+      <div class="cell-date"><span>Universita' Campus Bio-Medico di Roma</span></div>
+      <div class="cell-content">
+		<h3>Tele-impedance control using only wearable sensors</h3>
+		<div class="project-body">
+		  <img class="project-img figure" src="images/Teleimpedance.svg" alt="Conbots"/>
+		  <div class="project-text">
+			<p>As collaborative robots spread into new fields, they need teleoperation methods that can be exploited in unstructured environement.
+			In this study I tested a tele-impedance controller that maps both the position and the joint stiffness of the user's arm to an avatar in a virtual reality.
+			Unlike previous approaches, it relies only on wearable sensors (six EMG and two magneto-inertial sensors), so it can be used outside the lab.
+			We compared it with a traditional position-based controller in a 2-DoF virtual task involving physical interactions (developed in Unity).
+			The tele-impedance controller was less physically demanding and more intuitive than the position-based one. Interestingly, participants
+			kept regulating both the stiffness and position of their own arm even with the position controller, where stiffness had no effect on the virtual arm.</p>
+		  </div>
+		</div>
+		<p>Paper: <a href="https://doi.org/10.1038/s41598-024-68232-x" target="_blank">Scientific Reports (2024)</a></p>  </div>	
+	</div>
+	
+	<div class="row">
+		<div class="cell-date year"><span>Master and Undergraduate</span></div>
+		<div class="cell-year"></div>
+	</div>
+	
+	<div class="row">
+	  <div class="cell-date"><span>Universita' Campus Bio-Medico di Roma</span></div>
+	  <div class="cell-content">
+		<h3>Interface for wheelchair control</h3>
+		<div class="project-body">
+		  <div class="project-text">
+			<p>I developed a control interface for a powered wheelchair. The work covered the full system: the hardware and acquisition
+			of ultrasound sensors for obstacle detection, the wheelchair control, and an iPad GUI through which the user sent
+			commands to the motors. Data from the GUI and sensora were managed and elaborated using a microcontroller (PIC series) to send commands to the motors.</p>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+</body>
+</html>
