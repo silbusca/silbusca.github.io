@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <title>Publications & CV | Silvia Buscaglione</title>
+  <style>
+
+    /* ── GLOBAL VARIABLES ── */
+    :root {
+      --bg: #f8f6f1;
+      --sidebar-bg: #1c2b3a;
+      --accent: #c8603a;
+      --accent-light: #e8a088;
+      --accent-light2: #8fa4b8;
+      --text: #1a1a1a;
+      --muted: #5a6272;
+      --border: #e0dbd0;
+      --nav-h: 58px;
+      --color-bartxt: #c8d4e0;
+	  
+	  
+	  /* Font Style*/
+	  --font-main: Calibri, 'Gill Sans', sans-serif;	/* font style for the main text*/
+      --font-title: Calibri, 'Gill Sans', sans-serif;	/* font style for the title text*/
+	  
+	  
+      --font-size-main: 19px;
+      --line-height-main: 1.5;
+      --col-date: 200px;   /* width of the dark date column */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-main);
+      font-size: var(--font-size-main);
+      line-height: var(--line-height-main);
+      background: var(--bg);
+      color: var(--text);
+    }
+	
+	
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--sidebar-bg);
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 0 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    nav a {
+      color: var(--color-bartxt);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: capitalize;
+      padding-bottom: 3px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-light);
+      border-bottom-color: var(--accent-light);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    /* full width container, all rows share the same grid */
+    .page {
+      width: 100%;
+      min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* ── ROW GRID ── */
+    /* every row (header, year divider, news item) uses the same 2-column grid */
+    /* left column = dark date area, right column = content area */
+    .row {
+      display: grid;
+      grid-template-columns: var(--col-date) 1fr;  /* dark col + content col */
+    }
+
+    /* ── LEFT CELL (dark column) ── */
+    /* always dark navy — creates the continuous dark sidebar effect */
+    .cell-date {
+	  background: var(--sidebar-bg);        /* dark navy background — same as nav bar */
+	  
+	  padding: 1.4rem 1.2rem 1.4rem 1rem;  /* spacing inside the cell:
+											   top=1.4rem, right=1.2rem, 
+											   bottom=1.4rem, left=1rem */
+	  
+	  display: flex;                        /* needed to align the date text inside */
+	  
+	  align-items: flex-start;             /* pins the date text to the TOP of the cell
+											   so it aligns with the news title on the right,
+											   even if the news item is very tall */
+	  
+	  justify-content: flex-end;           /* pushes the date text to the RIGHT edge
+											   of the dark column */
+	  
+	  border-bottom: 1px solid rgba(255,255,255,0.08); /* very faint white line between 
+											   date cells — rgba(255,255,255,0.06) means 
+											   white at only 6% opacity, almost invisible,
+											   just enough to add subtle separation */
+	}                  
+
+		/* ── PUBLICATION ENTRIES ── */
+	.pub { margin-bottom: 0.2rem; }
+	.pub-authors { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+	.pub-authors strong { color: var(--text); font-weight: 600; }   /* highlights my name */
+	.pub-title { font-size: 0.98rem; font-weight: 600; color: var(--text); line-height: 1.4; margin: 0.15rem 0; }
+	.pub-venue { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+	.pub-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+
+	/* ── CV BUTTON ── */
+	.cv-button {
+	  display: inline-block;
+	  margin-bottom: 1.5rem;
+	  padding: 0.5rem 1.1rem;
+	  background: var(--accent);
+	  color: #fff;
+	  text-decoration: none;
+	  font-size: 0.9rem;
+	  font-weight: 600;
+	  border-radius: 6px;
+	  transition: background 0.2s;
+	}
+	.cv-button:hover { background: var(--accent-light); }
+
+    /* ── DATE TEXT ── */
+    .cell-date span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);                        /* orange date */
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* ── YEAR LABEL IN DARK COLUMN ── */
+	.cell-date.year {
+	  padding: 0.6rem 1.2rem;
+	  border-top: 1px solid var(--border);     /* ← add this */
+	  border-bottom: 1px solid var(--border);  /* ← change from none to this */
+	  align-items: center;
+	}
+
+    .cell-date.year span {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light2);                 /* grey-blue for year label */
+    }
+
+    /* ── HEADER ROW ── */
+    /* the "News" title row at the top */
+    .cell-header {
+      background: var(--bg);
+      padding: 3rem 4rem 0;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── YEAR DIVIDER ROW ── */
+    /* the "── 2026 ──" divider in the content column */
+    .cell-year {
+      background: var(--bg);
+      padding: 0.2rem 2rem;
+	  border-top: 0px solid var(--border);     /* ← add this */
+	  border-bottom: 1.3px solid var(--border);  /* ← add this */
+      display: flex;
+      align-items: center;
+    }
+
+    
+
+    /* ── NEWS CONTENT CELL ── */
+    /* right side of each news row */
+    .cell-content {
+      background: var(--bg);
+      padding: 1.4rem 4rem;
+      border-bottom: 1px solid var(--border);      /* divider between news items */
+    }
+
+    /* removes border from last news item in each year group */
+    .row.last .cell-content {
+      border-bottom: none;
+    }
+
+    /* ── NEWS TITLE ── */
+    .cell-content h3 {
+	  font-size: 1.0rem;    
+      font-weight: 600;     
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.4;  
+    }
+
+    /* ── NEWS DESCRIPTION ── */
+    .cell-content p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── NEWS LINKS ── */
+    .cell-content a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: color 0.2s;
+    }
+
+    .cell-content a:hover { color: var(--accent-light); }
+
+    /* ── FADE UP ANIMATION ── */
+    .row {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    /* on small screens, collapse to single column */
+    @media (max-width: 600px) {
+      .row { grid-template-columns: 100px 1fr; } /* narrower date column */
+      .cell-header, .cell-year, .cell-content { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="research.html">Research</a>
+    <a href="publications.html" class="active">Publications & CV</a>
+    <a href="news.html">News</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER ROW -->
+    <div class="row">
+      <div class="cell-date"></div>
+      <div class="cell-header">
+        <div class="page-title">Publications &amp; CV</div>
+        <div class="page-subtitle">
+          <a class="cv-button" href="files/CV_BuscaglioneSilvia.pdf" target="_blank">Download CV (PDF)</a><br/>
+          Journal articles and conference papers.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── JOURNAL ── -->
+    <div class="row">
+      <div class="cell-date year"><span>Journal</span></div>
+      <div class="cell-year"></div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>Submitted</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Desabhotla KS<sup>†</sup>, <strong>Buscaglione S</strong><sup>†</sup>, Annapragada S, Lokesh R, Lambert C, DiCarlo J, Goedeken S, Rishe K, Lin D, Sternad D</div>
+          <div class="pub-title">Force Modulation and Tuning During Object Interaction in Post-Stroke Individuals</div>
+          <div class="pub-venue">Journal of NeuroEngineering and Rehabilitation (submitted)</div>
+          <div class="pub-note"><sup>†</sup> Equal contribution</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2026</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors"><strong>Buscaglione S</strong>, Provenzale C, Bonsignori C, Ivanova E, Noccaro A, Sparaci L, Taffoni F, Burdet E, Formica D</div>
+          <div class="pub-title">Write Together: Using Haptic Coupling to Enhance Children’s Handwriting</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/11456116" target="_blank">IEEE Transactions on Haptics</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2025</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Noccaro A<sup>†</sup>, <strong>Buscaglione S</strong><sup>†</sup>, Eden J, Cheng X, Di Stefano N, Di Pino G, Burdet E, Formica D</div>
+          <div class="pub-title">Robot-Mediated Asymmetric Connection Between Humans Can Improve Performance Without Increasing Effort</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10916729" target="_blank">IEEE Transactions on Biomedical Engineering, 72(9)</a></div>
+          <div class="pub-note"><sup>†</sup> Equal contribution</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2024</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Way J, <strong>Buscaglione S</strong>, Giovannetti G, Formica D</div>
+          <div class="pub-title">Design and Testing of a Planar Device for Haptic Interactions During Handwriting Teaching and Learning</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10761056" target="_blank">IEEE Transactions on Medical Robotics and Bionics, pp. 108–113</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2024</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors"><strong>Buscaglione S</strong>, Noccaro A, Tagliamonte N, Ticchiarelli G, Di Pino G, Formica D</div>
+          <div class="pub-title">Tele-Impedance Control of a Virtual Avatar Based on EMG and M-IMU Sensors: A Proof-of-Concept</div>
+          <div class="pub-venue"><a href="https://www.nature.com/articles/s41598-024-68232-x" target="_blank">Scientific Reports, 14(1), 18543</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2021</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Caligiore D, Montedori F, <strong>Buscaglione S</strong>, Capirchio A</div>
+          <div class="pub-title">Increasing Serotonin to Reduce Parkinsonian Tremor</div>
+          <div class="pub-venue"><a href="https://www.frontiersin.org/articles/10.3389/fnsys.2021.682990/full" target="_blank">Frontiers in Systems Neuroscience, 15, 682990</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row last">
+      <div class="cell-date"><span>2018</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Simone P, Carusi C, Segreto F, Iannuzzi R, <strong>Buscaglione S</strong>, Gizzi A, …, Persichetti P</div>
+          <div class="pub-title">Postbariatric Brachioplasty with Posteromedial Scar: Physical Model, Technical Refinements, and Clinical Outcomes</div>
+          <div class="pub-venue"><a href="https://pubmed.ncbi.nlm.nih.gov/29369986/" target="_blank">Plastic and Reconstructive Surgery, 141(2), pp. 344–353</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONFERENCE ── -->
+    <div class="row">
+      <div class="cell-date year"><span>Conference</span></div>
+      <div class="cell-year"></div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2026</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Desabhotla KS, <strong>Buscaglione S</strong>, Annapragada S, Lokesh R, DiCarlo J, Lin D, Sternad D</div>
+          <div class="pub-title">Model-Based Estimation of Interaction Forces in an Object Manipulation Task</div>
+          <div class="pub-venue">IEEE EMBC 2026 (accepted)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2024</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors"><strong>Buscaglione S</strong>, Noccaro A, Provenzale C, Bonsignori C, Ivanova E, Sparaci L, Taffoni F, Burdet E, Formica D</div>
+          <div class="pub-title">A Human-Human Physical Interaction System for Training Handwriting</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10719973" target="_blank">IEEE BioRob 2024, Heidelberg, Germany, pp. 1415–1420</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2024</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Giovannetti G, Noccaro A, <strong>Buscaglione S</strong>, Formica D</div>
+          <div class="pub-title">Estimation of Passive Wrist Stiffness Across Two Coupled Degrees of Freedom Using a Kinematic Model of the Human Wrist</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10719857" target="_blank">IEEE BioRob 2024, Heidelberg, Germany, pp. 1358–1363</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2024</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Mulian H, Shlomov S, Limonad L, Noccaro A, <strong>Buscaglione S</strong></div>
+          <div class="pub-title">Mimicking the Maestro: Exploring the Efficacy of a Virtual AI Teacher in Fine Motor Skill Acquisition</div>
+          <div class="pub-venue"><a href="https://ojs.aaai.org/index.php/AAAI/article/view/30369" target="_blank">AAAI 2024, Vancouver, Canada, pp. 23224–23231</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2023</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Noccaro A, <strong>Buscaglione S</strong>, Pinardi M, Di Pino G, Formica D</div>
+          <div class="pub-title">Evaluation of a 7-DoFs Robotic Manipulator as Haptic Interface During Planar Reaching Tasks</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10342470" target="_blank">IEEE/RSJ IROS 2023, Detroit, USA, pp. 5095–5100</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2023</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors"><strong>Buscaglione S</strong>, Noccaro A, Di Pino G, Formica D</div>
+          <div class="pub-title">Assessment of the Visual Noise Influence on Muscle Activation During a Tracking Task</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10171927" target="_blank">IEEE MeMeA 2023, Jeju, South Korea, pp. 1–5</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2023</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Giovannetti G, <strong>Buscaglione S</strong>, Noccaro A, Formica D</div>
+          <div class="pub-title">Design and Validation of 3D Printed Hand Interfaces for Wrist Stiffness Assessment</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/10171924" target="_blank">IEEE MeMeA 2023, Jeju, South Korea, pp. 1–6</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2022</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors"><strong>Buscaglione S</strong>, Tagliamonte NL, Ticchiarelli G, Di Pino G, Formica D, Noccaro A</div>
+          <div class="pub-title">Tele-Impedance Control Approach Using Wearable Sensors</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/9871736" target="_blank">IEEE EMBC 2022, Glasgow, UK, pp. 2870–2873</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2022</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Noccaro A<sup>†</sup>, <strong>Buscaglione S</strong><sup>†</sup>, Di Pino G, Formica D</div>
+          <div class="pub-title">Visual Noise Linearly Influences Tracking Performance</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/9871509" target="_blank">IEEE EMBC 2022, Glasgow, UK, pp. 794–797</a></div>
+          <div class="pub-note"><sup>†</sup> Equal contribution</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell-date"><span>2020</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Portuese E, <strong>Buscaglione S</strong>, Formica D, Lanaro D</div>
+          <div class="pub-title">Assessment of Running Training Sessions Using IMU Sensors: Evaluation of Existing Parameters and Choice of New Indicators</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/9138212" target="_blank">IEEE MetroInd4.0&amp;IoT 2020, Rome, Italy, pp. 121–124</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row last">
+      <div class="cell-date"><span>2020</span></div>
+      <div class="cell-content">
+        <div class="pub">
+          <div class="pub-authors">Lapadula V, Sabatini A, Zompanti A, <strong>Buscaglione S</strong>, Lanaro D, Merone M</div>
+          <div class="pub-title">A Body Hydration Analysis System to Improve Running Performance</div>
+          <div class="pub-venue"><a href="https://ieeexplore.ieee.org/document/9138240" target="_blank">IEEE MetroInd4.0&amp;IoT 2020, Rome, Italy, pp. 507–510</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end page -->
+
+</body>
+</html>
