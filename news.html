@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <title>News | Silvia Buscaglione</title>
+  <style>
+
+    /* ── GLOBAL VARIABLES ── */
+    :root {
+      --bg: #f8f6f1;
+      --sidebar-bg: #1c2b3a;
+      --accent: #c8603a;
+      --accent-light: #e8a088;
+      --accent-light2: #8fa4b8;
+      --text: #1a1a1a;
+      --muted: #5a6272;
+      --border: #e0dbd0;
+      --nav-h: 58px;
+      --color-bartxt: #c8d4e0;
+	  
+	  
+	  /* Font Style*/
+	  --font-main: Calibri, 'Gill Sans', sans-serif;	/* font style for the main text*/
+      --font-title: Calibri, 'Gill Sans', sans-serif;	/* font style for the title text*/
+	  
+	  
+      --font-size-main: 19px;
+      --line-height-main: 1.5;
+      --col-date: 200px;   /* width of the dark date column */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-main);
+      font-size: var(--font-size-main);
+      line-height: var(--line-height-main);
+      background: var(--bg);
+      color: var(--text);
+    }
+	
+	
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--sidebar-bg);
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 0 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    }
+
+    nav a {
+      color: var(--color-bartxt);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: capitalize;
+      padding-bottom: 3px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-light);
+      border-bottom-color: var(--accent-light);
+    }
+
+    /* ── PAGE WRAPPER ── */
+    /* full width container, all rows share the same grid */
+    .page {
+      width: 100%;
+      min-height: calc(100vh - var(--nav-h));
+    }
+
+    /* ── ROW GRID ── */
+    /* every row (header, year divider, news item) uses the same 2-column grid */
+    /* left column = dark date area, right column = content area */
+    .row {
+      display: grid;
+      grid-template-columns: var(--col-date) 1fr;  /* dark col + content col */
+    }
+
+    /* ── LEFT CELL (dark column) ── */
+    /* always dark navy — creates the continuous dark sidebar effect */
+    .cell-date {
+	  background: var(--sidebar-bg);        /* dark navy background — same as nav bar */
+	  
+	  padding: 1.4rem 1.2rem 1.4rem 1rem;  /* spacing inside the cell:
+											   top=1.4rem, right=1.2rem, 
+											   bottom=1.4rem, left=1rem */
+	  
+	  display: flex;                        /* needed to align the date text inside */
+	  
+	  align-items: flex-start;             /* pins the date text to the TOP of the cell
+											   so it aligns with the news title on the right,
+											   even if the news item is very tall */
+	  
+	  justify-content: flex-end;           /* pushes the date text to the RIGHT edge
+											   of the dark column */
+	  
+	  border-bottom: 1px solid rgba(255,255,255,0.08); /* very faint white line between 
+											   date cells — rgba(255,255,255,0.06) means 
+											   white at only 6% opacity, almost invisible,
+											   just enough to add subtle separation */
+	}                  
+
+    /* ── DATE TEXT ── */
+    .cell-date span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);                        /* orange date */
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* ── YEAR LABEL IN DARK COLUMN ── */
+	.cell-date.year {
+	  padding: 0.6rem 1.2rem;
+	  border-top: 1px solid var(--border);     /* ← add this */
+	  border-bottom: 1px solid var(--border);  /* ← change from none to this */
+	  align-items: center;
+	}
+
+    .cell-date.year span {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light2);                 /* grey-blue for year label */
+    }
+
+    /* ── HEADER ROW ── */
+    /* the "News" title row at the top */
+    .cell-header {
+      background: var(--bg);
+      padding: 3rem 4rem 0;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── YEAR DIVIDER ROW ── */
+    /* the "── 2026 ──" divider in the content column */
+    .cell-year {
+      background: var(--bg);
+      padding: 0.2rem 2rem;
+	  border-top: 0px solid var(--border);     /* ← add this */
+	  border-bottom: 1.3px solid var(--border);  /* ← add this */
+      display: flex;
+      align-items: center;
+    }
+
+    
+
+    /* ── NEWS CONTENT CELL ── */
+    /* right side of each news row */
+    .cell-content {
+      background: var(--bg);
+      padding: 1.4rem 4rem;
+      border-bottom: 1px solid var(--border);      /* divider between news items */
+    }
+
+    /* removes border from last news item in each year group */
+    .row.last .cell-content {
+      border-bottom: none;
+    }
+
+    /* ── NEWS TITLE ── */
+    .cell-content h3 {
+	  font-size: 1.0rem;    
+      font-weight: 600;     
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.4;  
+    }
+
+    /* ── NEWS DESCRIPTION ── */
+    .cell-content p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── NEWS LINKS ── */
+    .cell-content a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-light);
+      transition: color 0.2s;
+    }
+
+    .cell-content a:hover { color: var(--accent-light); }
+
+    /* ── FADE UP ANIMATION ── */
+    .row {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    /* on small screens, collapse to single column */
+    @media (max-width: 600px) {
+      .row { grid-template-columns: 100px 1fr; } /* narrower date column */
+      .cell-header, .cell-year, .cell-content { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#research">Research</a>
+    <a href="index.html#publications">Publications & CV</a>
+    <a href="news.html" class="active">News</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER ROW -->
+	<div class="row">
+	  <div class="cell-date"></div>
+	  <div class="cell-header">
+		<div class="page-title">News</div>
+		<div class="page-subtitle">Updates on publications, conferences, and research activities.</div>
+	  </div>
+	</div>
+
+    <!-- ── 2026 ── -->
+
+    <!-- year label row -->
+    <div class="row">
+      <div class="cell-date year"><span>2026</span></div>  <!-- year in dark column -->
+      <div class="cell-year"><div class="year-line"></div></div>  <!-- divider line -->
+    </div>
+
+    <!-- Apr 2026 -->
+    <div class="row">
+      <div class="cell-date"><span>April 2026</span></div>  <!-- date perfectly aligned with content -->
+      <div class="cell-content">
+        <h3>Poster at 1st NSF PI M3X Meeting</h3>
+        <p>I presented the research entitled "<em>Physical Human-Human Interaction in Postural Balance: Insights for Intelligent Assistive Devices</em>", examining human-human physical interaction for providing insights into intelligent motorized cane design for postural balance assistance.</p>
+      </div>
+    </div>
+
+    <!-- Mar 2026 -->
+    <div class="row">
+      <div class="cell-date"><span>Mar 2026</span></div>
+      <div class="cell-content">
+        <h3>Paper Published in IEEE Transactions on Haptics</h3>
+        <p>The paper "<em>Write Together: Using Haptic Coupling to Enhance Children's Handwriting</em>", evaluating the effect of human-human physical coupling on handwriting learning in children, has been published in IEEE Transactions on Haptics. Check it out <a href="#">here</a>.</p>
+      </div>
+    </div>
+
+    <!-- Feb 2026 — last item of 2026, add class="last" to remove bottom border -->
+    <div class="row last">
+      <div class="cell-date"><span>Feb 2026</span></div>
+      <div class="cell-content">
+        <h3>Paper Accepted at IEEE EMBC 2026</h3>
+        <p>The paper "<em>Model-Based Estimation of Interaction Forces in an Object Manipulation Task</em>" presenting a method to evaluate forces applied by post-stroke individuals during object manipulation without the need for force sensors has been accepted at IEEE EMBC 2026.</p>
+      </div>
+    </div>
+
+  </div><!-- end page -->
+
+</body>
+</html>
